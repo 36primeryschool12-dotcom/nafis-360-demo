@@ -95,6 +95,7 @@ p { margin:8px 0 18px; }
   gap:18px;
   margin-top:22px;
 }
+.school-portals { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .extra .card { border-top:4px solid var(--gold); }
 .note {
   margin:25px 0;
@@ -135,7 +136,7 @@ p { margin:8px 0 18px; }
 </header>
 
 <main class="wrap">
-  <p class="intro"><strong>نسخة تجريبية للعرض.</strong> اختاري المرحلة المناسبة لرحلتكِ التعليمية. تُعرض النتائج على جهازكِ فقط.</p>
+  <p class="intro"><strong>نسخة تجريبية في هذا المتصفح.</strong> البطاقات التالية للمعاينة السريعة. لحفظ النتيجة في سجل المدرسة، اختاري «دخول الطالبة برمز المدرسة».</p>
 
   <section class="grid" aria-label="مراحل التعلم">
 
@@ -180,11 +181,21 @@ p { margin:8px 0 18px; }
 
   </section>
 
-  <section class="extra" aria-label="إدارة المدارس">
+  <section class="extra school-portals" aria-label="بوابات المدارس والمعلمات والطالبات">
     <article class="card">
       <h2>لوحة المدارس الجديدة</h2>
-      <p>أضيفي مدرسة جديدة وأصدري لها رمزًا تجريبيًا من ثماني خانات.</p>
+      <p>أضيفي مدرسة جديدة وأصدري رمزَي المدرسة والمعلمة.</p>
       <a class="btn" href="./admin/">فتح لوحة المدارس الجديدة</a>
+    </article>
+    <article class="card">
+      <h2>لوحة المعلمة</h2>
+      <p>إضافة الطالبات فرديًا أو جماعيًا، ومتابعة النتائج والتقارير.</p>
+      <a class="btn" href="./teacher/">فتح لوحة المعلمة</a>
+    </article>
+    <article class="card">
+      <h2>رحلة الطالبة المسجّلة</h2>
+      <p>ادخلي برمز المدرسة واختاري اسمكِ لحفظ نتيجة القبلي والتدريب والبعدي في سجل المدرسة التجريبي.</p>
+      <a class="btn" href="./student/">دخول الطالبة برمز المدرسة</a>
     </article>
   </section>
 

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مختبر نافس 360 | دخول الطالبة</title>
+  <link rel="stylesheet" href="../assets/demo.css">
+  <link rel="stylesheet" href="../assets/school-portals.css">
+</head>
+<body>
+<header><div><a class="back" href="../">العودة للبوابة الرئيسية</a><h1>بوابة الطالبة</h1><p>مختبر نافس 360</p></div></header>
+<main>
+  <p class="notice">تظهر المدارس والطالبات المسجلات تجريبيًا في هذا المتصفح. استخدمي أسماء تجريبية فقط.</p>
+  <section class="panel">
+    <h2>اختاري مدرستكِ واسمكِ</h2>
+    <form id="school-form">
+      <label for="student-school-code">رمز المدرسة</label><input id="student-school-code" dir="ltr" required maxlength="8" autocomplete="off">
+      <div class="toolbar"><button type="submit">عرض طالبات المدرسة</button></div>
+    </form>
+    <form id="student-form" hidden>
+      <p><label for="student-name">اسم الطالبة</label><select id="student-name" required></select></p>
+      <button type="submit">فتح رحلتي التعليمية</button>
+    </form>
+    <p id="student-status" role="status" class="status"></p>
+  </section>
+  <section class="panel" id="student-workspace" hidden>
+    <h2 id="student-title"></h2>
+    <div class="grid" id="student-stages"></div>
+    <div class="toolbar"><button id="student-logout" class="secondary" type="button">تغيير الطالبة</button></div>
+  </section>
+</main>
+<script src="../assets/school-registry.js" defer></script>
+<script src="../assets/student-portal.js" defer></script>
+</body>
+</html>

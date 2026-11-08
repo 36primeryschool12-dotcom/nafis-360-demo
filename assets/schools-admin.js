@@ -101,7 +101,21 @@
       status.className = `status ${school.status === "active" ? "on" : "off"}`;
       status.textContent = school.status === "active" ? "نشطة" : "غير نشطة";
 
-      row.insertCell().append(
+      const actions = row.insertCell();
+      const teacherLink = document.createElement("a");
+      teacherLink.href = `../teacher/?school=${encodeURIComponent(school.code)}`;
+      teacherLink.textContent = "إدارة الطالبات";
+      teacherLink.className = "school-action-link";
+      actions.append(
+        teacherLink,
+        button("رمز المعلمة", async () => {
+          try {
+            const teacherCode = await registry.issueTeacherCode(school.code);
+            notify(`رمز المعلمة التجريبي لمدرسة «${school.name}»: ${teacherCode}`);
+          } catch {
+            notify("تعذر إصدار رمز المعلمة في المتصفح.", true);
+          }
+        }),
         button("نسخ الرمز", () => copyCode(school.code)),
         button("تعديل", () => editSchool(school)),
         button(school.status === "active" ? "تعطيل" : "تفعيل", async () => {

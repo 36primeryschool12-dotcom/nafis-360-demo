@@ -1,0 +1,31 @@
+.panel { margin: 0 0 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; }
+label { display: block; font-weight: 700; margin-bottom: 4px; }
+input, select, textarea {
+  width: 100%; padding: 10px; border: 1px solid #bfcbd8; border-radius: 8px;
+  background: #fff; color: var(--ink); font: inherit;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); }
+textarea { resize: vertical; }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 550px; }
+th, td { text-align: start; border-bottom: 1px solid #dce6ef; padding: 10px; }
+th { background: #edf4fa; }
+.toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.step { padding: 12px; border: 1px solid #dce6ef; border-radius: 10px; }
+.step strong { display: block; }
+.step a { display: inline-block; margin-top: 7px; }
+[hidden] { display: none !important; }
+dialog {
+  width: min(92vw, 780px); max-height: 88vh; overflow: auto; padding: 20px;
+  color: var(--ink); border: 1px solid #dce6ef; border-radius: 14px;
+}
+dialog::backdrop { background: #10284299; }
+@page { size: A4; margin: 14mm; }
+@media print {
+  body.print-report > header, body.print-report main > :not(dialog), .no-print { display: none !important; }
+  body.print-report, body.print-report main { padding: 0; background: white; }
+  body.print-report dialog { display: block; position: static; max-height: none; width: 100%; padding: 0; border: 0; }
+  body.print-report dialog::backdrop { display: none; }
+  body.print-report table { min-width: 0; }
+}

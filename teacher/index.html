@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مختبر نافس 360 | لوحة المعلمة</title>
+  <link rel="stylesheet" href="../assets/demo.css">
+  <link rel="stylesheet" href="../assets/school-portals.css">
+</head>
+<body>
+<header><div><a class="back" href="../">العودة للبوابة الرئيسية</a><h1>لوحة المعلمة</h1><p>مختبر نافس 360</p></div></header>
+<main>
+  <p class="notice">نسخة تجريبية داخل هذا المتصفح. استخدمي أسماء ورموزًا تجريبية.</p>
+  <section class="panel" id="teacher-login">
+    <h2>دخول المدرسة</h2>
+    <form id="teacher-form">
+      <div class="grid">
+        <div><label for="school-code">رمز المدرسة</label><input id="school-code" dir="ltr" required maxlength="8" autocomplete="off"></div>
+        <div><label for="teacher-code">رمز المعلمة</label><input id="teacher-code" type="password" dir="ltr" required maxlength="8" autocomplete="off"></div>
+      </div>
+      <div class="toolbar"><button type="submit">دخول لوحة المعلمة</button></div>
+    </form>
+  </section>
+  <p id="teacher-status" class="status" role="status"></p>
+  <div id="teacher-workspace" hidden>
+    <section class="panel">
+      <h2 id="school-title"></h2>
+      <p id="school-metrics"></p>
+      <div class="toolbar"><button id="group-report" type="button">التقرير الجماعي</button><button id="csv-report" type="button">تصدير CSV</button><button id="logout" class="secondary" type="button">خروج</button></div>
+    </section>
+    <section class="panel">
+      <h2>إضافة الطالبات</h2>
+      <form id="single-form">
+        <label for="single-name">اسم الطالبة</label><input id="single-name" required minlength="3" maxlength="120">
+        <div class="toolbar"><button type="submit">إضافة طالبة</button></div>
+      </form>
+      <form id="bulk-form">
+        <p><label for="bulk-names">الإضافة الجماعية</label>الصقي كل اسم في سطر، ثم راجعي القائمة قبل الحفظ.</p>
+        <textarea id="bulk-names" rows="5" required maxlength="60000"></textarea>
+        <div class="toolbar"><button type="submit">معاينة الأسماء</button></div>
+      </form>
+      <div id="bulk-preview" hidden>
+        <p id="preview-summary" role="status"></p><ol id="preview-names"></ol>
+        <button type="button" id="bulk-save">حفظ الأسماء المعتمدة</button>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>سجل الطالبات والنتائج</h2>
+      <div class="tablewrap"><table>
+        <thead><tr><th>الطالبة</th><th>القبلي</th><th>التدريب</th><th>البعدي</th><th>التغير</th><th>الإجراءات</th></tr></thead>
+        <tbody id="student-rows"></tbody>
+      </table></div>
+    </section>
+  </div>
+  <dialog id="student-edit" aria-labelledby="student-edit-title">
+    <h2 id="student-edit-title">تعديل الطالبة</h2>
+    <form id="student-edit-form">
+      <div id="student-edit-field"><label for="student-edit-name">الاسم الجديد</label><input id="student-edit-name" maxlength="120"></div>
+      <p id="student-edit-note"></p>
+      <div class="toolbar"><button id="student-edit-save" type="submit">حفظ</button><button class="secondary" type="button" id="student-edit-cancel">إلغاء</button></div>
+    </form>
+  </dialog>
+  <dialog id="report" aria-labelledby="report-title">
+    <h2 id="report-title"></h2><div id="report-content"></div>
+    <div class="toolbar no-print"><button type="button" id="print-report">طباعة / حفظ PDF</button><form method="dialog"><button class="secondary">إغلاق</button></form></div>
+  </dialog>
+</main>
+<script src="../assets/school-registry.js" defer></script>
+<script src="../assets/teacher-demo.js" defer></script>
+</body>
+</html>

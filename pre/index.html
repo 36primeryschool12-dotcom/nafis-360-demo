@@ -13,7 +13,7 @@
 <body>
   <header>
     <div>
-      <a class="back" href="../">العودة للبوابة الرئيسية</a>
+      <a class="back" id="journey-back" href="../">العودة للبوابة الرئيسية</a>
       <h1>القياس القبلي | مختبر نافس 360</h1>
       <p>نكتشف المهارة · ننمّي الإتقان · نقيس الأثر</p>
     </div>
@@ -23,10 +23,14 @@
     <div class="notice">
       <strong>نسخة تجريبية مستقلة:</strong>
       الأسئلة توضيحية وليست بنك SharePoint.
-      لا تطلب اسم الطالبة أو رمز المدرسة،
-      ولا ترسل الإجابات أو تحفظها في Microsoft.
-      لا تُستخدم كرصد رسمي.
+      النتائج التجريبية محلية في هذا المتصفح وتُسجّل للطالبة عند فتح الرحلة من بوابتها.
     </div>
+
+    <section class="panel hidden" id="locked">
+      <h2>هذه المرحلة مقفلة</h2>
+      <p id="locked-note"></p>
+      <a class="stage-link" id="locked-link" href="../student/">العودة إلى بوابة الطالبة</a>
+    </section>
 
     <section class="panel" id="welcome">
       <h2 id="welcome-heading" tabindex="-1">قياس تجريبي من 30 سؤالًا</h2>
@@ -79,12 +83,13 @@
       <p class="big" id="score"></p>
       <p id="percent"></p>
       <div class="summary" id="domains"></div>
-      <p>هذه نتيجة محلية تجريبية، لم تُرسل إلى SharePoint.</p>
+      <p id="result-note"></p>
       <button id="restart" type="button">إعادة التجربة</button>
-      <p id="onward" hidden><a class="stage-link" href="../training/">الانتقال إلى دفعات التدريب</a></p>
+      <p id="onward" hidden><a class="stage-link" data-journey-link href="../training/">الانتقال إلى دفعات التدريب</a></p>
     </section>
   </main>
 
+  <script src="../assets/school-registry.js" defer></script>
   <script src="../assets/demo-journey.js" defer></script>
   <script src="../assets/questions-demo.js" defer></script>
   <script src="../assets/pre-demo.js" defer></script>

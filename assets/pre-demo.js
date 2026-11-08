@@ -13,6 +13,7 @@
   const batches = [...domains.values()];
   let questions = mode === "post" ? batches.flatMap(group => group.slice().reverse()) : bank;
   let batchIndex = 0;
+  let finishing = false;
   const $ = (id) => document.getElementById(id);
 
   const state = {
@@ -75,6 +76,7 @@
     });
 
     $("previous").disabled = i === 0;
+    $("next").disabled = false;
 
     $("next").textContent =
       i === questions.length - 1
@@ -94,7 +96,8 @@
       : `الإجابة الصحيحة: ${question.options[question.correct]}.`;
   }
 
-  function finish() {
+  async function finish() {
+    if (finishing) return;
     const missing = state.answers.findIndex(
       (answer) => answer === null
     );
@@ -108,16 +111,6 @@
         "انتقلنا إلى أول سؤال دون إجابة.";
 
       return;
-    }
-
-    const saved = journey.complete(mode, batchIndex);
-    const progressMessage = $("progress-message");
-    progressMessage.textContent = saved
-      ? (mode === "training" ? "اكتملت الدفعة." : "اكتملت المرحلة.")
-      : "تعذر حفظ تقدم الرحلة. فعّلي التخزين في المتصفح وأعيدي المحاولة.";
-    const onward = $("onward");
-    if (onward) {
-      onward.hidden = !saved || !journey.canOpen(mode === "pre" ? "training" : "post");
     }
 
     let score = 0;
@@ -139,6 +132,33 @@
 
       byDomain.set(q.domain, item);
     });
+
+    finishing = true;
+    $("next").disabled = $("previous").disabled = true;
+    $("options").querySelectorAll("input").forEach(input => { input.disabled = true; });
+    let saved;
+    try {
+      const result = {
+        correct: score, total: questions.length,
+        domains: Array.from(byDomain, ([name, metrics]) => ({ name, ...metrics }))
+      };
+      saved = await journey.complete(mode, batchIndex, result);
+    } catch {
+      saved = false;
+    } finally {
+      finishing = false;
+    }
+
+    $("progress-message").textContent = saved
+      ? (mode === "training" ? "اكتملت الدفعة." : "اكتملت المرحلة.")
+      : "تعذر حفظ تقدم الرحلة. تحققي من المدرسة وإعدادات المتصفح ثم أعيدي المحاولة.";
+    $("result-note").textContent = journey.enrolled && saved
+      ? "حُفظت النتيجة في سجل المدرسة التجريبي داخل هذا المتصفح."
+      : "هذه نتيجة معاينة داخل هذا المتصفح.";
+    const onward = $("onward");
+    if (onward) {
+      onward.hidden = !saved || !journey.canOpen(mode === "pre" ? "training" : "post");
+    }
 
     $("score").textContent = `${score} من ${questions.length}`;
 
@@ -235,6 +255,19 @@
     }
   });
 
+  if (journey.enrolled) {
+    $("journey-back").href = "../student/";
+    $("journey-back").textContent = "العودة إلى رحلة الطالبة";
+    for (const link of document.querySelectorAll("[data-journey-link]")) {
+      link.href = `${link.getAttribute("href")}?student=1`;
+    }
+    if (!journey.learner()) {
+      $("locked-note").textContent = "اختاري المدرسة والطالبة من بوابة الطالبة لفتح هذه الرحلة.";
+      $("locked-link").href = "../student/";
+      $("locked-link").textContent = "العودة إلى بوابة الطالبة";
+    }
+  }
+
   showWelcome();
   window.addEventListener("pageshow", event => {
     if (event.persisted) showWelcome();
@@ -252,7 +285,7 @@
       state.index++;
       render();
     } else {
-      finish();
+      return finish();
     }
   });
 })();

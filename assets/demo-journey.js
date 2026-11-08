@@ -4,9 +4,21 @@
   const batchCount = 3;
   const root = new URL("../", document.currentScript.src).pathname;
   const storageKey = `nafis360:demo-progress:v1:${root}`;
+  const registry = window.NafisSchoolRegistry;
+  const enrolled = new URL(document.URL ?? document.currentScript.src).searchParams.get("student") === "1";
+  const initial = enrolled ? registry?.selectedStudent() : null;
+  const selection = initial ? { code: initial.school.code, id: initial.student.id } : null;
+  const learner = () => {
+    const current = selection && registry.selectedStudent();
+    return current?.school.code === selection?.code && current?.student.id === selection?.id ? current : null;
+  };
   const emptyProgress = { pre: false, batches: 0, post: false };
 
   function progress() {
+    if (enrolled) {
+      const current = learner();
+      return current ? registry.progress(current.student) : { ...emptyProgress };
+    }
     try {
       const data = JSON.parse(window.localStorage.getItem(storageKey));
       if (data?.pre !== true) return { ...emptyProgress };
@@ -20,12 +32,17 @@
   }
 
   function canOpen(stage, state = progress()) {
+    if (enrolled && !learner()) return false;
     if (stage === "training") return state.pre;
     if (stage === "post") return state.batches === batchCount;
     return stage === "pre";
   }
 
-  function complete(stage, batchIndex) {
+  function complete(stage, batchIndex, result) {
+    if (enrolled) {
+      if (!learner()) return false;
+      return registry.recordResult(selection, stage, batchIndex, result);
+    }
     const state = progress();
     if (!canOpen(stage, state)) return false;
 
@@ -45,7 +62,7 @@
     }
   }
 
-  window.NafisDemoJourney = { batchCount, progress, canOpen, complete };
+  window.NafisDemoJourney = { batchCount, progress, canOpen, complete, enrolled, learner };
 
   const stageLinks = document.querySelectorAll("[data-journey-stage]");
   function updateLinks() {
